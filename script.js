@@ -1,7 +1,4 @@
-//your JS code here.
- 
 // Do not change code below this line
-// This code will just display the questions to the screen
 const questions = [
   {
     question: "What is the capital of France?",
@@ -29,43 +26,54 @@ const questions = [
     answer: "Ottawa",
   },
 ];
- const questionsElement = document.getElementById("questions");
-    const userAnswers = [];
-// Display the quiz questions and choices
-function renderQuestions() {
-  for (let i = 0; i < questions.length; i++) {
-    const question = questions[i];
-    const questionElement = document.createElement("div");
-    const questionText = document.createTextNode(question.question);
-    questionElement.appendChild(questionText);
-    for (let j = 0; j < question.choices.length; j++) {
-      const choice = question.choices[j];
-      const choiceElement = document.createElement("input");
-      choiceElement.setAttribute("type", "radio");
-      choiceElement.setAttribute("name", `question-${i}`);
-      choiceElement.setAttribute("value", choice);
-      if (userAnswers[i] === choice) {
-        choiceElement.setAttribute("checked", true);
-      }
-      const choiceText = document.createTextNode(choice);
-      questionElement.appendChild(choiceElement);
-      questionElement.appendChild(choiceText);
-    }
-    questionsElement.appendChild(questionElement);
-  }
-}
-renderQuestions();
 
- document.getElementById("submit").addEventListener("click", () => {
-      let score = 0;
-      for (let i = 0; i < questions.length; i++) {
-        const selected = document.querySelector(
-          `input[name="question-${i}"]:checked`
-        );
-        if (selected && selected.value === questions[i].answer) {
-          score++;
-        }
-      }
-      document.getElementById("score").textContent =
-        `You got ${score} out of ${questions.length} correct.`;
+const questionsElement = document.getElementById("questions");
+const scoreElement = document.getElementById("score");
+
+// Display quiz questions
+function renderQuestions() {
+  questions.forEach((q, i) => {
+    const questionDiv = document.createElement("div");
+
+    const questionText = document.createElement("p");
+    questionText.textContent = q.question;
+    questionDiv.appendChild(questionText);
+
+    q.choices.forEach(choice => {
+      const label = document.createElement("label");
+
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = `question-${i}`;
+      input.value = choice;
+
+      label.appendChild(input);
+      label.appendChild(document.createTextNode(choice));
+
+      questionDiv.appendChild(label);
+      questionDiv.appendChild(document.createElement("br"));
     });
+
+    questionsElement.appendChild(questionDiv);
+  });
+}
+
+// Calculate score
+function calculateScore() {
+  let score = 0;
+
+  questions.forEach((q, i) => {
+    const selected = document.querySelector(
+      `input[name="question-${i}"]:checked`
+    );
+    if (selected && selected.value === q.answer) {
+      score++;
+    }
+  });
+
+  scoreElement.textContent = `Your score: ${score} / ${questions.length}`;
+}
+
+document.getElementById("submit").addEventListener("click", calculateScore);
+
+renderQuestions();
