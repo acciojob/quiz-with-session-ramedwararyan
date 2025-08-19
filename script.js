@@ -66,6 +66,6 @@ renderQuestions();
           score++;
         }
       }
-      document.getElementById("result").textContent =
+      document.getElementById("score").textContent =
         `You got ${score} out of ${questions.length} correct.`;
     });
