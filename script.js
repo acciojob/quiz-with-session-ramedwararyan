@@ -1,5 +1,5 @@
 //your JS code here.
-
+ 
 // Do not change code below this line
 // This code will just display the questions to the screen
 const questions = [
@@ -29,7 +29,8 @@ const questions = [
     answer: "Ottawa",
   },
 ];
-
+ const questionsElement = document.getElementById("questions");
+    const userAnswers = [];
 // Display the quiz questions and choices
 function renderQuestions() {
   for (let i = 0; i < questions.length; i++) {
@@ -54,3 +55,17 @@ function renderQuestions() {
   }
 }
 renderQuestions();
+
+ document.getElementById("submit").addEventListener("click", () => {
+      let score = 0;
+      for (let i = 0; i < questions.length; i++) {
+        const selected = document.querySelector(
+          `input[name="question-${i}"]:checked`
+        );
+        if (selected && selected.value === questions[i].answer) {
+          score++;
+        }
+      }
+      document.getElementById("result").textContent =
+        `You got ${score} out of ${questions.length} correct.`;
+    });
