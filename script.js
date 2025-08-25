@@ -81,7 +81,7 @@ function restoreAnswers() {
 
   const savedScore = localStorage.getItem("score");
   if (savedScore !== null) {
-    scoreElement.textContent = `Your score is ${savedScore} out of ${questions.length}`;
+    scoreElement.textContent = `Your score is ${savedScore} out of ${questions.length}.`;
   }
 }
 
