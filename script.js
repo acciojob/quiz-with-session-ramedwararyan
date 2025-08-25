@@ -71,7 +71,7 @@ function calculateScore() {
     }
   });
 
-  scoreElement.textContent = `Your score: ${score} / ${questions.length}`;
+  scoreElement.textContent = `Your score is ${score} out of ${questions.length}`;
 }
 
 document.getElementById("submit").addEventListener("click", calculateScore);
