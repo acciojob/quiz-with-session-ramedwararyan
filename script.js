@@ -30,26 +30,10 @@ const questions = [
 const questionsElement = document.getElementById("questions");
 const scoreElement = document.getElementById("score");
 
-// Restore answers from localStorage
-function restoreAnswers() {
-  const savedAnswers = JSON.parse(localStorage.getItem("answers")) || {};
-  Object.entries(savedAnswers).forEach(([qIndex, choice]) => {
-    const input = document.querySelector(
-      `input[name="question-${qIndex}"][value="${choice}"]`
-    );
-    if (input) {
-      input.checked = true;
-    }
-  });
-
-  const savedScore = localStorage.getItem("score");
-  if (savedScore !== null) {
-    scoreElement.textContent = `Your score is ${savedScore} out of ${questions.length}`;
-  }
-}
-
 // Display quiz questions
 function renderQuestions() {
+  questionsElement.innerHTML = ""; // ✅ Clear before rendering
+
   questions.forEach((q, i) => {
     const questionDiv = document.createElement("div");
 
@@ -83,6 +67,24 @@ function renderQuestions() {
   });
 }
 
+// Restore answers from localStorage
+function restoreAnswers() {
+  const savedAnswers = JSON.parse(localStorage.getItem("answers")) || {};
+  Object.entries(savedAnswers).forEach(([qIndex, choice]) => {
+    const input = document.querySelector(
+      `input[name="question-${qIndex}"][value="${choice}"]`
+    );
+    if (input) {
+      input.checked = true;
+    }
+  });
+
+  const savedScore = localStorage.getItem("score");
+  if (savedScore !== null) {
+    scoreElement.textContent = `Your score is ${savedScore} out of ${questions.length}`;
+  }
+}
+
 // Calculate score
 function calculateScore() {
   let score = 0;
@@ -96,11 +98,12 @@ function calculateScore() {
     }
   });
 
-  scoreElement.textContent = `Your score is ${score} out of ${questions.length}.`;
-  localStorage.setItem("score", score); // ✅ store score in localStorage
+  scoreElement.textContent = `Your score is ${score} out of ${questions.length}`;
+  localStorage.setItem("score", score); // ✅ Save score
 }
 
 document.getElementById("submit").addEventListener("click", calculateScore);
 
+// Run
 renderQuestions();
 restoreAnswers();
