@@ -96,7 +96,7 @@ function calculateScore() {
     }
   });
 
-  scoreElement.textContent = `Your score is ${score} out of ${questions.length}`;
+  scoreElement.textContent = `Your score is ${score} out of ${questions.length}.`;
   localStorage.setItem("score", score); // ✅ store score in localStorage
 }
 
