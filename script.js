@@ -69,15 +69,23 @@ function renderQuestions() {
       choiceElement.setAttribute("value", choice);
 
       // Restore checked answers from session storage
-      if (userAnswers[i] === choice) {
-        choiceElement.checked = true;
-      }
+     if (userAnswers[i] === choice) {
+  choiceElement.checked = true;
+  choiceElement.setAttribute("checked", "true"); // ✅ ensures Cypress sees it
+}
 
-      // Add change event to save answer in session storage
-      choiceElement.addEventListener("change", () => {
-        userAnswers[i] = choice;
-        sessionStorage.setItem("progress", JSON.stringify(userAnswers));
-      });
+choiceElement.addEventListener("change", (e) => {
+  userAnswers[i] = choice;
+  sessionStorage.setItem("progress", JSON.stringify(userAnswers));
+
+  // Clear previous checked attributes for this question
+  document.querySelectorAll(`input[name="question-${i}"]`)
+    .forEach((el) => el.removeAttribute("checked"));
+
+  // Add checked attribute to the newly selected radio
+  e.target.setAttribute("checked", "true");
+});
+
 
       const choiceLabel = document.createElement("label");
       choiceLabel.innerText = choice;
